@@ -2,7 +2,7 @@
 
 One **app colour** turned into full **light and dark palettes**, a **System / Light / Dark** choice saved on the phone, and a ready **Appearance** page. For React Native / Expo apps. Nothing in it is specific to any one app: an app passes its own colour (the placeholder), and nothing changes for apps that don't use the kit.
 
-> Status: **v1.0.0** (2026-11-18). First used by **PAL – Personal Asset Locker** (emerald).
+> Status: **v1.0.1** (2026-11-18). First used by **PAL – Personal Asset Locker** (emerald).
 
 Part of the shared kits:
 [app-core-kit](https://github.com/yuvarajsalla20/app-core-kit) ·
@@ -62,6 +62,8 @@ export const { ThemeProvider, usePalette, useThemeChoice, AppearancePage, choice
 ```
 
 Wrap the app in `<ThemeProvider>`, read colours with `usePalette()`, and put `<AppearancePage />` on a Settings page (in app-settings-kit, an `extraPages` entry under Preferences, with `value: choiceLabel(useThemeChoice().choice)`).
+
+Plain (no React Native) entry points for tests and pure code: `app-theme-kit/palette` (makePalettes), `app-theme-kit/color`, `app-theme-kit/choice`.
 
 Options: `initial` (default `'system'`), `strings` (every word), `components.Text` (your font). Override any made-up colour with `makePalettes({ brand, light: { card: '#FAFAFA' }, dark: { ... } })`.
 
