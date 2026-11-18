@@ -1,0 +1,35 @@
+{
+  "name": "app-theme-kit",
+  "version": "1.0.0",
+  "description": "Reusable app theme for React Native / Expo apps: one app colour turned into full light and dark palettes, a System / Light / Dark choice saved on the phone, and a ready Appearance page. No app's colours are built in.",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./color": "./src/color.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Yuvaraj Salla",
+  "peerDependencies": {
+    "@expo/vector-icons": ">=14",
+    "react": ">=18",
+    "react-native": ">=0.74"
+  },
+  "devDependencies": {
+    "@expo/vector-icons": "^15.1.1",
+    "@types/react": "~19.3.0",
+    "react": "19.3.0",
+    "react-native": "0.88.1",
+    "typescript": "~6.0.3",
+    "vitest": "^2.1.9"
+  }
+}
