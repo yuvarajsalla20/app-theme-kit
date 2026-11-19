@@ -61,7 +61,7 @@ export const theme = createThemeKit({ light: LIGHT, dark: DARK, storage: AsyncSt
 export const { ThemeProvider, usePalette, useThemeChoice, AppearancePage, choiceLabel } = theme;
 ```
 
-Wrap the app in `<ThemeProvider>`, read colours with `usePalette()`, and put `<AppearancePage />` on a Settings page (in app-settings-kit, an `extraPages` entry under Preferences, with `value: choiceLabel(useThemeChoice().choice)`).
+Wrap the app in `<ThemeProvider>`, read colours with `usePalette()`, and put `<AppearancePage />` on a Settings page (optional `cardStyle` prop adds your own style to its card, e.g. a border; nothing by default) (in app-settings-kit, an `extraPages` entry under Preferences, with `value: choiceLabel(useThemeChoice().choice)`).
 
 Plain (no React Native) entry points for tests and pure code: `app-theme-kit/palette` (makePalettes), `app-theme-kit/color`, `app-theme-kit/choice`.
 

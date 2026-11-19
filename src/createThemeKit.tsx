@@ -1,6 +1,6 @@
 import Feather from '@expo/vector-icons/Feather';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ComponentType, type ReactNode } from 'react';
-import { Pressable, StyleSheet, Text as RNText, useColorScheme, View, type TextProps } from 'react-native';
+import { Pressable, StyleSheet, Text as RNText, useColorScheme, View, type StyleProp, type TextProps, type ViewStyle } from 'react-native';
 import { isThemeChoice, pickLook, type ThemeChoice } from './choice';
 import type { BaseTokens } from './palette';
 import { DEFAULT_STRINGS, type ThemeStrings } from './strings';
@@ -71,13 +71,16 @@ export function createThemeKit<P extends BaseTokens>(options: ThemeKitOptions<P>
   /** "System", "Light" or "Dark", for a Settings row's value. */
   const choiceLabel = (c: ThemeChoice) => CHOICES.find((x) => x.value === c)?.label ?? strings.system;
 
-  /** The Appearance page body: a card of three rows (no pop-ups); tap one to choose it. */
-  function AppearancePage({ note = strings.note }: { note?: string }) {
+  /**
+   * The Appearance page body: a card of three rows (no pop-ups); tap one to choose it.
+   * `cardStyle` (optional, nothing by default) is added to the card, e.g. an app's own border: { borderWidth, borderColor }.
+   */
+  function AppearancePage({ note = strings.note, cardStyle }: { note?: string; cardStyle?: StyleProp<ViewStyle> }) {
     const p = usePalette();
     const { choice, setChoice } = useThemeChoice();
     return (
       <>
-        <View style={[styles.card, { backgroundColor: p.card }]} accessibilityRole="radiogroup" accessibilityLabel={strings.title}>
+        <View style={[styles.card, { backgroundColor: p.card }, cardStyle]} accessibilityRole="radiogroup" accessibilityLabel={strings.title}>
           {CHOICES.map((c, i) => {
             const on = choice === c.value;
             return (
