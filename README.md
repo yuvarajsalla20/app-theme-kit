@@ -2,7 +2,7 @@
 
 One **app colour** turned into full **light and dark palettes**, a **System / Light / Dark** choice saved on the phone, and a ready **Appearance** page. For React Native / Expo apps. Nothing in it is specific to any one app: an app passes its own colour (the placeholder), and nothing changes for apps that don't use the kit.
 
-> Status: **v1.0.1** (2026-11-18). First used by **PAL – Personal Asset Locker** (emerald).
+**Current version: 1.1.0** (tag `v1.1.0`). First used by **PAL – Personal Asset Locker** (emerald). The release history is in [CHANGELOG.md](CHANGELOG.md).
 
 Part of the shared kits:
 [app-core-kit](https://github.com/yuvarajsalla20/app-core-kit) ·
@@ -13,8 +13,11 @@ Part of the shared kits:
 [app-payments-kit](https://github.com/yuvarajsalla20/app-payments-kit) ·
 [app-export-kit](https://github.com/yuvarajsalla20/app-export-kit) ·
 [app-guard-kit](https://github.com/yuvarajsalla20/app-guard-kit) ·
-[app-goldrates-api-kit](https://github.com/yuvarajsalla20/app-goldrates-api-kit) ·
-**app-theme-kit**
+**app-theme-kit** ·
+[app-invite-kit](https://github.com/yuvarajsalla20/app-invite-kit) ·
+[app-goldrates-api-kit](https://github.com/yuvarajsalla20/app-goldrates-api-kit)
+
+Tools that work alongside them: [code-review-kit](https://github.com/yuvarajsalla20/code-review-kit) (reviews) and app-insights-kit (store numbers, private).
 
 ## The idea
 
@@ -38,8 +41,10 @@ Every app should have **one** colour (like Claude is orange). The kit takes that
 Pin by the full SHA of a release tag (never a branch):
 
 ```bash
-npm install "git+https://github.com/yuvarajsalla20/app-theme-kit.git#<tag SHA>"
+npm install "git+https://github.com/yuvarajsalla20/app-theme-kit.git#<full SHA of v1.1.0>"
 ```
+
+Record the tag in `kitVersions` (`"app-theme-kit": "v1.1.0"`). Find the SHA with `git ls-remote https://github.com/yuvarajsalla20/app-theme-kit refs/tags/v1.1.0`.
 
 Peer dependencies: `react`, `react-native`, `@expo/vector-icons`. In `app.json` set `"userInterfaceStyle": "automatic"` so System can follow the phone (needs a new native build).
 
@@ -63,6 +68,15 @@ export const { ThemeProvider, usePalette, useThemeChoice, AppearancePage, choice
 
 Wrap the app in `<ThemeProvider>`, read colours with `usePalette()`, and put `<AppearancePage />` on a Settings page (optional `cardStyle` prop adds your own style to its card, e.g. a border; nothing by default) (in app-settings-kit, an `extraPages` entry under Preferences, with `value: choiceLabel(useThemeChoice().choice)`).
 
+**With app-settings-kit 8.0.0 or later**, pass the choice to its built-in Appearance row instead of placing the page yourself:
+
+```tsx
+const { choice, setChoice } = useThemeChoice();
+<AppSettings … appearance={{ value: choice, onChange: setChoice }} />
+```
+
+Appearance is one of the two optional rows in app-settings-kit (with Security); the settings kit draws the row and its page.
+
 Plain (no React Native) entry points for tests and pure code: `app-theme-kit/palette` (makePalettes), `app-theme-kit/color`, `app-theme-kit/choice`.
 
 Options: `initial` (default `'system'`), `strings` (every word), `components.Text` (your font). Override any made-up colour with `makePalettes({ brand, light: { card: '#FAFAFA' }, dark: { ... } })`.
@@ -77,3 +91,7 @@ Options: `initial` (default `'system'`), `strings` (every word), `components.Tex
 ## Later (not built)
 
 - An optional "choose your app colour" row for people using the app.
+
+## Writing rule
+
+Every word this kit shows, and every line of its documentation, follows the shared [Writing rule](https://github.com/yuvarajsalla20/app-settings-kit#writing-rule-every-word-is-professional): Title Case for titles, rows and buttons; calm, complete sentences for captions and messages; "e.g.," for examples; no chatty fragments, slang or exclamation marks. Apps do not override these words; a change is made in the kit so that every app receives it.
