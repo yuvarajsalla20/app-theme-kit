@@ -8,3 +8,5 @@ export type { BaseTokens, PaletteSeed } from './palette';
 export { contrast, hexToHsl, hsl, readableOn, withAlpha } from './color';
 export { DEFAULT_STRINGS } from './strings';
 export type { ThemeStrings } from './strings';
+export { KIT_RADIUS, kitThemes, palettesFromColors } from './kitThemes';
+export type { AppColors, KitPalette, KitThemes } from './kitThemes';
