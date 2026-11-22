@@ -2,7 +2,7 @@
 
 One **app colour** turned into full **light and dark palettes**, a **System / Light / Dark** choice saved on the phone, and a ready **Appearance** page. For React Native / Expo apps. Nothing in it is specific to any one app: an app passes its own colour (the placeholder), and nothing changes for apps that don't use the kit.
 
-**Current version: 1.1.0** (tag `v1.1.0`). First used by **PAL – Personal Asset Locker** (emerald). The release history is in [CHANGELOG.md](CHANGELOG.md).
+**Current version: 1.2.0** (tag `v1.2.0`). First used by **PAL – Personal Asset Locker** (emerald). The release history is in [CHANGELOG.md](CHANGELOG.md).
 
 Part of the shared kits:
 [app-core-kit](https://github.com/yuvarajsalla20/app-core-kit) ·
@@ -41,7 +41,7 @@ Every app should have **one** colour (like Claude is orange). The kit takes that
 Pin by the full SHA of a release tag (never a branch):
 
 ```bash
-npm install "git+https://github.com/yuvarajsalla20/app-theme-kit.git#<full SHA of v1.1.0>"
+npm install "git+https://github.com/yuvarajsalla20/app-theme-kit.git#<full SHA of v1.2.0>"
 ```
 
 Record the tag in `kitVersions` (`"app-theme-kit": "v1.1.0"`). Find the SHA with `git ls-remote https://github.com/yuvarajsalla20/app-theme-kit refs/tags/v1.1.0`.
@@ -80,6 +80,26 @@ Appearance is one of the two optional rows in app-settings-kit (with Security); 
 Plain (no React Native) entry points for tests and pure code: `app-theme-kit/palette` (makePalettes), `app-theme-kit/color`, `app-theme-kit/choice`.
 
 Options: `initial` (default `'system'`), `strings` (every word), `components.Text` (your font). Override any made-up colour with `makePalettes({ brand, light: { card: '#FAFAFA' }, dark: { ... } })`.
+
+**Every kit's look from one palette (1.2.0).** An app sets eight colors per look (e.g., in `colors.json`) and the kit makes everything else, including the theme each kit takes, so the app writes no color mapping of its own:
+
+```tsx
+import { createThemeKit, palettesFromColors } from 'app-theme-kit';
+import colors from './colors.json'; // { light: { bg, card, line, text, muted, accent, onAccent, accentSoft }, dark: { … } }
+
+const { light, dark } = palettesFromColors(colors);
+export const theme = createThemeKit({ light, dark, storage: AsyncStorage, storageKey: 'myapp.theme' });
+export const { ThemeProvider, usePalette, useKitThemes, useThemeChoice } = theme;
+
+// In a screen:
+const { account, auth, subscription, launch, crash, statusBar } = useKitThemes();
+<AppSettings theme={account} … />          // app-settings-kit, and makePageHeader / makeHomeHeader
+<SignInScreen theme={auth} … />            // app-auth-kit
+<PlansScreen theme={subscription} … />     // app-subscriptions-kit
+<WelcomeScreen colors={launch} … />        // app-launch-kit
+```
+
+`kitThemes(palette)` gives the same objects outside React (`app-theme-kit/kits` has no React Native). `palettesFromColors` adds `danger` and `success` to each look; pass your own as the second argument.
 
 ## Rules it follows
 

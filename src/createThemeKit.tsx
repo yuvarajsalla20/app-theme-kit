@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { Pressable, StyleSheet, Text as RNText, useColorScheme, View, type StyleProp, type TextProps, type ViewStyle } from 'react-native';
 import { isThemeChoice, pickLook, type ThemeChoice } from './choice';
 import type { BaseTokens } from './palette';
+import { kitThemes } from './kitThemes';
 import { DEFAULT_STRINGS, type ThemeStrings } from './strings';
 
 /** Where the choice is kept (AsyncStorage fits). Leave it out and the choice lasts until the app closes. */
@@ -109,7 +110,13 @@ export function createThemeKit<P extends BaseTokens>(options: ThemeKitOptions<P>
     );
   }
 
-  return { ThemeProvider, usePalette, useThemeChoice, AppearancePage, choiceLabel, strings };
+  /** 1.2.0: every kit's theme made from the palette now (see `kitThemes`). */
+  const useKitThemes = () => {
+    const p = usePalette();
+    return useMemo(() => kitThemes(p), [p]);
+  };
+
+  return { ThemeProvider, usePalette, useKitThemes, useThemeChoice, AppearancePage, choiceLabel, strings };
 }
 
 const styles = StyleSheet.create({

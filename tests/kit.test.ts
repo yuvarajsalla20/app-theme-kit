@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { contrast, hexToHsl, hsl, readableOn, withAlpha } from '../src/color';
 import { isThemeChoice, pickLook } from '../src/choice';
 import { KIT_VERSION } from '../src/kit';
+import { kitThemes, palettesFromColors } from '../src/kitThemes';
 import { makePalettes } from '../src/palette';
 
 describe('kit', () => {
@@ -57,5 +58,36 @@ describe('makePalettes', () => {
     expect(light.accent).toBe('#1F7A5C');
     expect(dark.accent).toBe('#6FD0AA');
     expect(light.card).toBe('#FAFAFA');
+  });
+});
+
+describe('1.2.0 kitThemes and palettesFromColors', () => {
+  const COLORS = {
+    light: { bg: '#f5f2ea', card: '#ffffff', line: '#e4dccb', text: '#141414', muted: '#5c5548', accent: '#7a5a12', onAccent: '#ffffff', accentSoft: '#f1e6cc' },
+    dark: { bg: '#0b1020', card: '#141a2e', line: '#252c44', text: '#f5f2ea', muted: '#a9a39a', accent: '#e2bb63', onAccent: '#0b1020', accentSoft: '#2a2716' },
+  };
+  it('keeps the eight colors of each look and adds the status colors', () => {
+    const { light, dark } = palettesFromColors(COLORS);
+    expect(light.bg).toBe('#f5f2ea');
+    expect(dark.accent).toBe('#e2bb63');
+    expect(light.danger).toBeTruthy();
+    expect(dark.success).toBeTruthy();
+    expect(palettesFromColors(COLORS, { light: { danger: '#990000' } }).light.danger).toBe('#990000');
+  });
+  it('gives every kit its theme from the one palette', () => {
+    const { light, dark } = palettesFromColors(COLORS);
+    const l = kitThemes(light);
+    expect(l.account.accent).toBe('#7a5a12');
+    expect(l.account.ink).toBe('#ffffff');
+    expect(l.account.on).toBe(light.success);
+    expect(l.auth.primary).toBe('#7a5a12');
+    expect(l.subscription.premiumSoft).toBe('#f1e6cc');
+    expect(l.launch).toEqual(COLORS.light);
+    expect(l.statusBar).toBe('dark');
+    expect(kitThemes(dark).statusBar).toBe('light');
+  });
+  it('fills the status colors when a palette has none', () => {
+    const { light } = makePalettes({ brand: '#1F7A5C' });
+    expect(kitThemes(light).account.danger).toBeTruthy();
   });
 });
