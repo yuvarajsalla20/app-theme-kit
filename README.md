@@ -2,7 +2,7 @@
 
 One **app colour** turned into full **light and dark palettes**, a **System / Light / Dark** choice saved on the phone, and a ready **Appearance** page. For React Native / Expo apps. Nothing in it is specific to any one app: an app passes its own colour (the placeholder), and nothing changes for apps that don't use the kit.
 
-**Current version: 1.2.0** (tag `v1.2.0`). First used by **PAL – Personal Asset Locker** (emerald). The release history is in [CHANGELOG.md](CHANGELOG.md).
+**Current version: 1.3.0** (tag `v1.3.0`). First used by **PAL – Personal Asset Locker** (emerald). The release history is in [CHANGELOG.md](CHANGELOG.md).
 
 Part of the shared kits:
 [app-core-kit](https://github.com/yuvarajsalla20/app-core-kit) ·
@@ -41,12 +41,12 @@ Every app should have **one** colour (like Claude is orange). The kit takes that
 Pin by the full SHA of a release tag (never a branch):
 
 ```bash
-npm install "git+https://github.com/yuvarajsalla20/app-theme-kit.git#<full SHA of v1.2.0>"
+npm install "git+https://github.com/yuvarajsalla20/app-theme-kit.git#<full SHA of v1.3.0>"
 ```
 
 Record the tag in `kitVersions` (`"app-theme-kit": "v1.1.0"`). Find the SHA with `git ls-remote https://github.com/yuvarajsalla20/app-theme-kit refs/tags/v1.1.0`.
 
-Peer dependencies: `react`, `react-native`, `@expo/vector-icons`. In `app.json` set `"userInterfaceStyle": "automatic"` so System can follow the phone (needs a new native build).
+Peer dependencies: `react`, `react-native`, `@expo/vector-icons`, and `app-core-kit` ≥ 1.11.0 (1.3.0: the shared helpers). In `app.json` set `"userInterfaceStyle": "automatic"` so System can follow the phone (needs a new native build).
 
 ## How an app uses it
 

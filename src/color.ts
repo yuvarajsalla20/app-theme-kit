@@ -1,3 +1,4 @@
+import { withAlpha as coreWithAlpha } from 'app-core-kit/shared';
 /** Small colour helpers (hex <-> HSL, contrast). Pure functions, no React. */
 
 export interface Hsl {
@@ -63,5 +64,8 @@ export function contrast(a: string, b: string): number {
 /** Whichever of `light` and `dark` reads better on `bg`. */
 export const readableOn = (bg: string, light = '#FFFFFF', dark = '#111111') => (contrast(bg, light) >= contrast(bg, dark) ? light : dark);
 
-/** `hex` with an alpha (0-1) as #RRGGBBAA. */
-export const withAlpha = (hex: string, alpha: number) => `${rgbToHex(hexToRgb(hex).r, hexToRgb(hex).g, hexToRgb(hex).b)}${Math.round(clamp(alpha, 0, 1) * 255).toString(16).padStart(2, '0').toUpperCase()}`;
+/** `hex` with an alpha (0-1) as #RRGGBBAA. 1.3.0: the alpha step is app-core-kit's single copy; this kit keeps its own upper-case form and its check that `hex` is a colour. */
+export const withAlpha = (hex: string, alpha: number): string => {
+  const { r, g, b } = hexToRgb(hex);
+  return coreWithAlpha(rgbToHex(r, g, b), alpha)!.toUpperCase();
+};
